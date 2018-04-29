@@ -100,9 +100,10 @@ function callSpotify() {
   params = params.substring(1);
   // new object with for the parameter string. Methods available for the object
   let urlParams = new URLSearchParams(params);
+  console.log(urlParams);
   // use the get methods to find the value of the access_token parameter. This is needed for the search API call
   let accessToken = urlParams.get('access_token');
-  
+  console.log(accessToken);
   //let accessToken = ''
   
   session.EVENT_ARR.forEach(event => {
@@ -112,7 +113,7 @@ function callSpotify() {
         'Authorization': 'Bearer ' + accessToken
       },
       success: function (response) {
-
+        
         let i = session.EVENT_ARR.indexOf(event);
 
         //if any of these are true, the response is junk
