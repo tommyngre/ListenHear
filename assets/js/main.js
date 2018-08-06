@@ -1,4 +1,4 @@
-let colors = ['#F4B4CA', '#DD5E89', '#FFCDBC', '#FB906B', '#A7E4C7', '#73CAA0', '#D5F6B5', '#9FE160'];
+let colors = ['#F4B4CA', '#FFCDBC', '#A7E4C7', '#D5F6B5'];
 
 let session = {
   zip: '',
@@ -321,7 +321,7 @@ function loadEvents() {
           width="250" height="80" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
         </div>
         <div class="row tile">
-          <button id="make-plans-button-${index}" class="btn btn-lg btn-block btn-dark make-plans-button mx-auto">Make My Plans!</button>
+          <button id="make-plans-button-${index}" class="btn btn-lg btn-block btn-dark make-plans-button mx-auto">Find nearby dining options!</button>
         </div>
 
       <div id="event-city-${index}" class="event-city" style="display: none;">${event.city}</div>
@@ -361,12 +361,16 @@ function loadEvents() {
 }
 
 $(document).on("click", ".make-plans-button", function () {
-  bounceOut("#sort-page")
-  bounceIn('#restaurants');
 
   eventWrapper = $(this).parent().parent().parent();
 
-  //musiv event vars we carry to restaurant tiles
+  //clear restaurant contents
+  $('#restTable').html("");
+
+  bounceOut("#sort-page")
+  bounceIn('#restaurants');
+
+  //music event vars we carry to restaurant tiles
   let venueAddress = $(eventWrapper).find('.event-address').text();
   let venueCity = $(eventWrapper).find('.event-city').text();
   let venueLat = $(eventWrapper).find('.event-lat').text();
@@ -403,11 +407,15 @@ $(document).on("click", ".make-plans-button", function () {
 
       let restHtml =
         `
+        <div class="container">
           <div id="restaurant-name" class="datum-restName">Restaurant: ${restaurant.name}</div>
           <div id="restaurant-cuisine" class="datum-restType">Cuisine: ${cuisines}</div>
           <div id="restaurant-cost" class="datum-restCost cost">Avg Cost: ${restaurant.cost}</div>
           <div id="restaurant-rating" class="datum-restRating rating">Rating: ${restaurant.rating}/5</div>
-          <button class="btn btn-dark directions-button">Choose This One</button>
+          <div class="row tile">
+          <button class="btn btn-dark directions-button mx-auto">Choose This One</button>
+          </div>
+          </div>
           <div class="restaurant-address" style="display:none;">${restaurant.address}</div>
           <div class="restaurant-lat" style="display: none;">${restaurant.lat}</div>
           <div class="restaurant-lon" style="display: none;">${restaurant.lon}</div>
@@ -416,6 +424,7 @@ $(document).on("click", ".make-plans-button", function () {
           <div class="venue-city" style="display: none;">${venueCity}</div>
           <div class="venue-lat" style="display: none;">${venueLat}</div>
           <div class="venue-lon" style="display: none;">${venueLon}</div>
+        
           `;
 
       let cuisineClasses = cuisinesAry.map(cuisine => cuisine.replaceAll(" ", "-"))
@@ -436,10 +445,13 @@ $(document).on("click", ".make-plans-button", function () {
 
 //proceed to directions page
 $(document).on("click", ".directions-button", function () {
+  let rw = $(this).parent(); //restaurant-wrapper
+
   bounceOut("#restaurants")
   bounceIn('#finalPage');
 
-  let rw = $(this).parent(); //restaurant-wrapper
+  //clear map contents if exists
+  $('#googleMap').html("");
 
   let mapCity = $(rw).find(".venue-city").text()
   let mapVenueAddress = $(rw).find(".venue-address").text()
@@ -470,7 +482,7 @@ $(document).on("click", ".directions-button", function () {
 
 //ISOTOPE FEATURES
 //isotope filter for cuisines
-$("#cuisines-in-dropdown").on("click", ".dropdown-item", function () {
+$("#cuisines-in-dropdown,#cuisines-in-dropdown-sm").on("click", ".dropdown-item", function () {
 
   var $grid = $('.grid').isotope({
     // options
@@ -490,7 +502,7 @@ $("#cuisines-in-dropdown").on("click", ".dropdown-item", function () {
 });
 
 //isotope filter for genre
-$("#genres-in-dropdown").on("click", ".dropdown-item", function () {
+$("#genres-in-dropdown,#genres-in-dropdown-sm").on("click", ".dropdown-item", function () {
 
   var $grid = $('.grid').isotope({
     // options
@@ -510,7 +522,7 @@ $("#genres-in-dropdown").on("click", ".dropdown-item", function () {
 });
 
 //isotope cities for genre
-$("#cities-in-dropdown").on("click", ".dropdown-item", function () {
+$("#cities-in-dropdown,#cities-in-dropdown-sm").on("click", ".dropdown-item", function () {
 
   var $grid = $('.grid').isotope({
     // options
@@ -548,34 +560,27 @@ function bounceOut(section) {
 }
 
 //CLICK FEATURES
-$(document.body).on('click', '#sort-page-back', function () {
+$(document.body).on('click', '#sort-page-back, #sort-page-back-sm', function () {
   bounceOut('#sort-page');
   setTimeout(function () {
     bounceIn('#landingPage');
   }, 500);
 });
 
-//FOR UNIMPLEMENTED BACK BUTTONS
-// $(document.body).on('click', '#sort-page-back-sm', function () {
-//   bounceOut('#sort-page');
-//   setTimeout(function () {
-//     bounceIn('#landingPage');
-//   }, 500);
-// });
+$(document.body).on('click', '#rest-page-back, #rest-page-back-sm', function () {
+  bounceOut('#restaurants');
+  setTimeout(function () {
+    bounceIn('#sort-page');
+  }, 500);
+});
 
-// $(document.body).on('click', '#restaurants-page-back', function () {
-//   bounceOut('#restaurants');
-//   setTimeout(function () {
-//     bounceIn('#sort-page');
-//   }, 500);
-// });
-
-// $(document.body).on('click', '#last-page-back', function () {
-//   bounceOut('#finalPage');
-//   setTimeout(function () {
-//     bounceIn('#restaurants');
-//   }, 500);
-// });
+$(document.body).on('click', '#last-page-back, #last-page-back-sm', function () {
+  // $("#restTable").html("");
+  bounceOut('#finalPage');
+  setTimeout(function () {
+    bounceIn('#restaurants');
+  }, 500);
+});
 
 $(document).ready(function () {
   bounceIn("#landingPage");

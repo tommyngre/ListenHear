@@ -76,16 +76,20 @@ body{
     border-bottom-right-radius: 0rem;
 }
 
+.dunk{
+color:#F4B4CA', '#FFCDBC', '#A7E4C7', '#D5F6B5'
+}
+
 .row .tile{
     margin: 5px auto;
 }
 
 .event-wrapper{
     display:inline-block;
-    background-color:rosybrown;
     padding:2px;
     margin:5px;
     font-weight: 500;
+    background-color:#D5F6B5;
   }
 
 .event-wrapper:hover{
@@ -104,9 +108,12 @@ body{
   
   .grid-item {
     float: left;
-    border: 2px solid #333;
-    border-color: hsla(0, 0%, 0%, 0.7);
-  }
+    box-shadow: 1px 1px 3px 1px #444
+}
+
+.btn-lg{
+    font-size: 1rem;
+}
 
 #loadingImg {
     height:50vh;
@@ -169,7 +176,7 @@ body{
 
 @media screen and (max-width: 400px) {
 
-    /* #sort-options-wrapper-lg{
+    #sort-options-wrapper-lg{
         display:none;
     }
 
@@ -183,7 +190,7 @@ body{
 
     #sort-options-wrapper-rest-sm{
         display:block;
-    } */
+    }
 
 
     .app-title{
